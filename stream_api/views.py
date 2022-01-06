@@ -103,6 +103,5 @@ class StreamAPIView(CreateAPIView):
             if success:
                
                 pipe.stdin.write(frame.tostring())
-            cap.release()
-            pipe.terminate()
+            
             
