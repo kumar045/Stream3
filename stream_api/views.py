@@ -99,7 +99,7 @@ class StreamAPIView(CreateAPIView):
             #                    fontScale, color, thickness, cv2.LINE_AA)
             #     frame = cv2.putText(frame, 'processing through python OpenCV', org2, font, 
             #                    fontScale, color, thickness, cv2.LINE_AA)
-            print(len(frame))
+            
             if success:
                
                 pipe.stdin.write(frame.tostring())
