@@ -53,7 +53,7 @@ class StreamAPIView(CreateAPIView):
         return Response(response_text, status=status.HTTP_400_BAD_REQUEST)
     def stream_function(self,stream_id):
 
-        print("running stream")
+        print("running stream started")
         rtmp = r'rtmp://192.168.56.1/live/output'
         # Read video and get attributes
         cap = cv2.VideoCapture("rtmp://192.168.56.1/live/nodeskwela")
