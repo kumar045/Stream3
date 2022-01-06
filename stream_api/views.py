@@ -101,8 +101,7 @@ class StreamAPIView(CreateAPIView):
             #                    fontScale, color, thickness, cv2.LINE_AA)
 
             if success:
-                if cv2.waitKey(1) & 0xFF == ord('q'):
-                    break
+               
                 pipe.stdin.write(frame.tostring())
             cap.release()
             pipe.terminate()
