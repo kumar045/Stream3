@@ -54,9 +54,9 @@ class StreamAPIView(CreateAPIView):
     def stream_function(self,stream_id):
 
         print("running stream started")
-        rtmp = r'rtmp://192.168.56.1/live/output'
+        rtmp = r'rtmp://35.154.58.17/live/output'
         # Read video and get attributes
-        cap = cv2.VideoCapture("rtmp://192.168.56.1/live/nodeskwela")
+        cap = cv2.VideoCapture("rtmp://35.154.58.17/live/nodeskwela")
         size = (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
         sizeStr = str(size[0]) + 'x' + str(size[1])
         command = ['ffmpeg',
