@@ -54,7 +54,7 @@ class StreamAPIView(CreateAPIView):
     def stream_function(self,stream_id):
 
         print("running stream started")
-        print(stream_id)
+        print(type(stream_id))
         rtmp = r'rtmp://65.2.122.170/live/output'
         # Read video and get attributes
         cap = cv2.VideoCapture("rtmp://65.2.122.170/live/nodeskwela")
