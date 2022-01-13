@@ -57,9 +57,11 @@ class StreamAPIView(CreateAPIView):
         number=int(stream_id)+1
         string=str(number)
         print(stream_id, string)
-        rtmp = r'rtmp://65.2.122.170/live/output'
+        rtmp = r'rtmp://65.2.122.170/live/'+string
+        print(rtmp)
+        print("rtmp://65.2.122.170/live/"+stream_id)
         # Read video and get attributes
-        cap = cv2.VideoCapture("rtmp://65.2.122.170/live/nodeskwela")
+        cap = cv2.VideoCapture("rtmp://65.2.122.170/live/"+stream_id)
         size = (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
         sizeStr = str(size[0]) + 'x' + str(size[1])
         command = ['ffmpeg',
