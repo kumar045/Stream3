@@ -4,7 +4,10 @@ from rest_framework.response import Response
 from rest_framework.generics import CreateAPIView
 from rest_framework import status
 import cv2
-import subprocess
+from PIL import Image
+import base64
+import numpy as np
+import io
 class StreamAPIView(CreateAPIView):
     serializer_class =StreamSerializer
     queryset = Stream.objects.all()
@@ -21,15 +24,15 @@ class StreamAPIView(CreateAPIView):
 
         if serializer.is_valid():
 
-            stream_id=self.request.data['stream_id']
+            stream_bytes=self.request.data['stream_bytes']
 
             content = []
 
             
 
-            print("main_image_url:::::",stream_id)
+            # print("main_image_url:::::",stream_bytes)
            
-            self.stream_function(stream_id)
+            streambytes=self.stream_function(stream_bytes)
            
 
             # add result to the dictionary and revert as response
@@ -38,7 +41,7 @@ class StreamAPIView(CreateAPIView):
                 'response':
                     {
 
-                        'Description':"Started Successfully",
+                        'streambytes':streambytes,
                     }
             }
             content.append(mydict)
@@ -51,62 +54,19 @@ class StreamAPIView(CreateAPIView):
                 "response": errors
             }
         return Response(response_text, status=status.HTTP_400_BAD_REQUEST)
-    def stream_function(self,stream_id):
+    def stream_function(self,stream_bytes):
+        
+        b64_string = base64.b64decode(stream_bytes)
 
-        print("running stream started")
-        number=int(stream_id)+1
-        string=str(number)
-        print(stream_id, string)
-        rtmp = r'rtmp://65.2.122.170/live/'+string
-        print(rtmp)
-        print("rtmp://65.2.122.170/live/"+stream_id)
-        # Read video and get attributes
-        cap = cv2.VideoCapture("rtmp://65.2.122.170/live/"+stream_id)
-        size = (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
-        sizeStr = str(size[0]) + 'x' + str(size[1])
-        command = ['ffmpeg',
-        '-y', '-an',
-        '-f', 'rawvideo',
-        '-vcodec','rawvideo',
-        '-pix_fmt', 'bgr24',
-        '-s', sizeStr,
-        '-r', '25',
-        '-i', '-',
-        '-c:v', 'libx264',
-        '-pix_fmt', 'yuv420p',
-        '-preset', 'ultrafast',
-        '-f', 'flv',
-        rtmp]
-        pipe = subprocess.Popen(command, shell=False, stdin=subprocess.PIPE
-        )
-        font = cv2.FONT_HERSHEY_SIMPLEX
-
-        # org
-        org = (0, 50)
-        # org1 = (0, 100)
-        # org2 = (0, 150)
-
-        # fontScale
-        fontScale = 1
-
-        # Blue color in BGR
-        color = (255, 0, 0)
-
-        # Line thickness of 2 px
-        thickness = 1
-        while cap.isOpened():
-            success, frame = cap.read()
-            frame = cv2.flip(frame,1)
-
-            frame = cv2.putText(frame, 'Taking input from react  ', org, font, 
-                            fontScale, color, thickness, cv2.LINE_AA)
-            #     frame = cv2.putText(frame, 'native android camera ', org1, font, 
-            #                    fontScale, color, thickness, cv2.LINE_AA)
-            #     frame = cv2.putText(frame, 'processing through python OpenCV', org2, font, 
-            #                    fontScale, color, thickness, cv2.LINE_AA)
-            
-            if success:
-               
-                pipe.stdin.write(frame.tostring())
-            
-            
+        image = Image.open(io.BytesIO(b64_string))
+        image_np = np.array(image)
+        image = cv2.putText(image_np, 'OpenCV', (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 
+                   1, (255, 0, 0), 2, cv2.LINE_AA)
+        cv2.imwrite("image1.jpg",image)
+        retval, buffer = cv2.imencode('.jpg', image)
+        jpg_as_text = base64.b64encode(buffer)
+        decodeit = open('image3.jpg', 'wb')
+        decodeit.write(base64.b64decode((jpg_as_text)))
+        decodeit.close()             
+        print(image_np)
+        return jpg_as_text
