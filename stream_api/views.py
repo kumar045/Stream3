@@ -45,6 +45,7 @@ class StreamAPIView(CreateAPIView):
                     }
             }
             content.append(mydict)
+            print(content)
 
             return Response(content, status=status.HTTP_200_OK)
         errors = serializer.errors
