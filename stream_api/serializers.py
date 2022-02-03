@@ -1,9 +1,10 @@
 from rest_framework import serializers
-
+from base64.fields import Base64ImageField
 
 
 class StreamSerializer(serializers.Serializer):
-    stream_bytes=serializers.CharField(max_length=100000000000)
+    stream_bytes= Base64ImageField(required=False)
+
     
     
    
