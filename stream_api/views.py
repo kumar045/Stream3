@@ -41,7 +41,7 @@ class StreamAPIView(CreateAPIView):
                 'response':
                     {
 
-                        'streambytes':streambytes,
+                        'streambytes':str(streambytes).decode('base64'),
                     }
             }
             content.append(mydict)
