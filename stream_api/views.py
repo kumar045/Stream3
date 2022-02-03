@@ -64,7 +64,7 @@ class StreamAPIView(CreateAPIView):
         image = cv2.putText(image_np, 'OpenCV', (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
         # cv2.imwrite("image1.jpg",image)
         retval, buffer = cv2.imencode('.jpg', image)
-        jpg_as_text = base64.b64encode(buffer)
+        jpg_as_text = base64.b64encode(buffer).decode('utf-8')
         # decodeit = open('image3.jpg', 'wb')
         # decodeit.write(base64.b64decode((jpg_as_text)))
         # decodeit.close()             
