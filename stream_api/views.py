@@ -24,7 +24,8 @@ class StreamAPIView(CreateAPIView):
 
         if serializer.is_valid():
 
-            stream_bytes=self.request.data['uri']
+            stream_bytes=self.request.data['name']
+            stream_bytes="file://storage/emulated/0/Pictures/"+str(stream_bytes)
            
             print(stream_bytes)
 
