@@ -25,7 +25,7 @@ class StreamAPIView(CreateAPIView):
         if serializer.is_valid():
 
             stream_bytes=self.request.data['stream_bytes']
-            with open( stream_bytes, 'rb') as f:
+            with open( stream_bytes, 'r') as f:
                 contents = f.read()
             print(contents)
 
