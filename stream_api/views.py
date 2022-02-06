@@ -57,16 +57,16 @@ class StreamAPIView(CreateAPIView):
             }
         return Response(response_text, status=status.HTTP_400_BAD_REQUEST)
     def stream_function(self,stream_bytes):
-        
+        print(stream_bytes)
 
-        image = Image.open(stream_bytes)
-        image_np = np.array(image)
-        image = cv2.putText(image_np, 'OpenCV', (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
-        # cv2.imwrite("image1.jpg",image)
-        retval, buffer = cv2.imencode('.jpg', image)
-        jpg_as_text = base64.b64encode(buffer).decode('utf-8')
-        # decodeit = open('image3.jpg', 'wb')
-        # decodeit.write(base64.b64decode((jpg_as_text)))
-        # decodeit.close()             
-        # print(image_np)
-        return jpg_as_text
+        # image = Image.open(stream_bytes)
+        # image_np = np.array(image)
+        # image = cv2.putText(image_np, 'OpenCV', (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
+        # # cv2.imwrite("image1.jpg",image)
+        # retval, buffer = cv2.imencode('.jpg', image)
+        # jpg_as_text = base64.b64encode(buffer).decode('utf-8')
+        # # decodeit = open('image3.jpg', 'wb')
+        # # decodeit.write(base64.b64decode((jpg_as_text)))
+        # # decodeit.close()             
+        # # print(image_np)
+        return stream_bytes
