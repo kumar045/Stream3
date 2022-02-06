@@ -25,9 +25,8 @@ class StreamAPIView(CreateAPIView):
         if serializer.is_valid():
 
             stream_bytes=self.request.data['stream_bytes']
-            with open( stream_bytes, 'r') as f:
-                contents = f.read()
-            print(contents)
+           
+            print(stream_bytes)
 
             content = []
 
@@ -35,7 +34,7 @@ class StreamAPIView(CreateAPIView):
 
             # print("main_image_url:::::",stream_bytes)
            
-            streambytes=self.stream_function(contents)
+            streambytes=self.stream_function(stream_bytes)
            
 
             # add result to the dictionary and revert as response
