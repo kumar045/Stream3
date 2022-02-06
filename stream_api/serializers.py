@@ -1,9 +1,15 @@
 from rest_framework import serializers
 
+from stream_api.models import Stream
 
 
-class StreamSerializer(serializers.Serializer):
-    stream_bytes=serializers.ImageField() # From DRF Extra Fields
+
+
+class StreamSerializer(serializers.ModelSerializer):
+   class Meta:
+        model = Stream
+        fields = '__all__'
+        
    
 
     
