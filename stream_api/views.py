@@ -57,9 +57,8 @@ class StreamAPIView(CreateAPIView):
         return Response(response_text, status=status.HTTP_400_BAD_REQUEST)
     def stream_function(self,stream_bytes):
         
-        b64_string = base64.b64decode(stream_bytes)
 
-        image = Image.open(io.BytesIO(b64_string))
+        image = Image.open(stream_bytes)
         image_np = np.array(image)
         image = cv2.putText(image_np, 'OpenCV', (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
         # cv2.imwrite("image1.jpg",image)
