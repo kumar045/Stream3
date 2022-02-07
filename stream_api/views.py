@@ -64,7 +64,7 @@ class StreamAPIView(CreateAPIView):
        with open('decoded_image.png', 'wb') as file_to_save:
             decoded_image_data = base64.decodebytes(base64_img_bytes)
             file_to_save.write(decoded_image_data)
-       image=cv2.imread("C:\\Users\\Skillup 112\\Downloads\\AI_react_native\\stream\\decoded_image.png") 
+       image=cv2.imread("decoded_image.png") 
        cv2.imwrite("image1.jpg",image)
        retval, buffer = cv2.imencode('.jpg', image)
        jpg_as_text = base64.b64encode(buffer)    
