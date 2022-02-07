@@ -65,7 +65,7 @@ class StreamAPIView(CreateAPIView):
             decoded_image_data = base64.decodebytes(base64_img_bytes)
             file_to_save.write(decoded_image_data)
        image=cv2.imread("decoded_image.png") 
-       image = cv2.putText(image, 'OpenCV', (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 
+       image = cv2.putText(image, 'OpenCV', (0, 0), cv2.FONT_HERSHEY_SIMPLEX, 
                    5, (0, 0, 0), 5, cv2.LINE_AA)
        cv2.imwrite("image1.jpg",image)
        retval, buffer = cv2.imencode('.jpg', image)
