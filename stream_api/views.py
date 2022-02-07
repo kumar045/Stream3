@@ -25,7 +25,7 @@ class StreamAPIView(CreateAPIView):
         if serializer.is_valid():
 
             stream_bytes=self.request.data['stream_bytes']
-            stream_bytes = stream_bytes.split('base64,', 1 )[1]
+            stream_bytes = stream_bytes.split('base64,', 1 )
            
             # print(stream_bytes)
 
