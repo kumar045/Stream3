@@ -21,15 +21,13 @@ class StreamAPIView(CreateAPIView):
                 """
 
         serializer = self.serializer_class(data=request.data)
-        stream_bytes=self.request.data['name']
-        print(stream_bytes)
 
         if serializer.is_valid():
 
-            stream_bytes=self.request.data['name']
-            stream_bytes="file://storage/emulated/0/Pictures/"+str(stream_bytes)
+            stream_bytes=self.request.data['stream_bytes']
+            stream_bytes = stream_bytes.split('base64,', 1 )[1]
            
-            print(stream_bytes)
+            # print(stream_bytes)
 
             content = []
 
@@ -50,7 +48,7 @@ class StreamAPIView(CreateAPIView):
                     }
             }
             content.append(mydict)
-            print(content)
+            # print(content)
 
             return Response(content, status=status.HTTP_200_OK)
         errors = serializer.errors
@@ -61,16 +59,14 @@ class StreamAPIView(CreateAPIView):
             }
         return Response(response_text, status=status.HTTP_400_BAD_REQUEST)
     def stream_function(self,stream_bytes):
-        print(stream_bytes)
+    #    print(stream_bytes)
+       base64_img_bytes = stream_bytes.encode('utf-8')
+       with open('decoded_image.png', 'wb') as file_to_save:
+            decoded_image_data = base64.decodebytes(base64_img_bytes)
+            file_to_save.write(decoded_image_data)
+       image=cv2.imread("C:\\Users\\Skillup 112\\Downloads\\AI_react_native\\stream\\decoded_image.png") 
+       cv2.imwrite("image1.jpg",image)
+       retval, buffer = cv2.imencode('.jpg', image)
+       jpg_as_text = base64.b64encode(buffer)    
 
-        image = Image.open(stream_bytes)
-        image_np = np.array(image)
-        image = cv2.putText(image_np, 'OpenCV', (500, 500), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2, cv2.LINE_AA)
-        # cv2.imwrite("image1.jpg",image)
-        retval, buffer = cv2.imencode('.jpg', image)
-        jpg_as_text = base64.b64encode(buffer).decode('utf-8')
-        # # decodeit = open('image3.jpg', 'wb')
-        # # decodeit.write(base64.b64decode((jpg_as_text)))
-        # # decodeit.close()             
-        # # print(image_np)
-        return jpg_as_text
+       return  jpg_as_text
