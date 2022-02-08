@@ -7,7 +7,7 @@ Created on Tue Sep  8 01:00:10 2020
 
 import cv2
 import numpy as np
-from guidedfilter import guided_filter
+from .guidedfilter import guided_filter
 
 def get_illumination_channel(I, w):
     M, N, _ = I.shape
