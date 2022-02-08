@@ -3,6 +3,7 @@ from .serializers import StreamSerializer
 from rest_framework.response import Response
 from rest_framework.generics import CreateAPIView
 from rest_framework import status
+from .night_images import convert
 import cv2
 from PIL import Image
 import base64
@@ -64,10 +65,10 @@ class StreamAPIView(CreateAPIView):
        with open('decoded_image.png', 'wb') as file_to_save:
             decoded_image_data = base64.decodebytes(base64_img_bytes)
             file_to_save.write(decoded_image_data)
-       image=cv2.imread("decoded_image.png") 
-       image = cv2.putText(image, 'OpenCV', (0, 300), cv2.FONT_HERSHEY_SIMPLEX, 
-                   3, (0, 0, 0), 3, cv2.LINE_AA)
-       cv2.imwrite("image1.jpg",image)
+       image=cv2.imread("decoded_image.png")
+       image=convert(image) 
+       
+    #    cv2.imwrite("image1.jpg",image)
        retval, buffer = cv2.imencode('.jpg', image)
        jpg_as_text = base64.b64encode(buffer)    
 
