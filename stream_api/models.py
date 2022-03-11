@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Stream(models.Model):
-    stream_bytes = models.CharField(max_length=1110010000)
+    stream_text = models.CharField(max_length=1110010000)
 
     
 
